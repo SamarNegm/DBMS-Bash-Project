@@ -1,0 +1,21 @@
+#!/bin/bash
+function check_exist(){
+exist=0
+for d in $(ls) :
+do
+	
+	if [ $d == "DB" ];
+	then
+		echo exist
+		exist=1;
+	fi
+done
+if [ $exist -eq 0 ];
+	then
+	mkdir DB
+
+fi
+}
+check_exist
+
+. ./DbMenue

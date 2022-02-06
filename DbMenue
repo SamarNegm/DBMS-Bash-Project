@@ -1,0 +1,83 @@
+#!/bin/bash
+
+function valid (){
+if [[ -d ./DB/$1  ]]
+then
+	echo "THERE IS DATABASE WITH THE SAME NAME "
+	return 0;
+fi
+for i in $1 ;
+do
+	if [[ $i =~ [^a-zA-Z] ]]		
+	then
+		echo "HAVE UNVALID CHARACTER >> IT MUST BE ALPHABETICS"
+		return 0;
+	fi
+done
+return 1;
+} 
+function CreateDB (){
+read db
+valid $db
+if [ $? -eq 1  ]
+	then
+        echo $pwd
+        mkdir ./DB/$db
+fi
+}
+function ListDB(){
+echo "Your Databases are:"
+ls ./DB
+}
+function ConnectDB(){
+echo "Enter DB name to connect: "
+read name
+if [[ -d ./DB/$name ]]; then
+cd ./DB/$name
+echo "Connectd to $name Successfully"
+else
+echo "Invalid DB"
+fi
+}
+function DropDB() {
+echo "Enter DB name to drop:"
+read name
+if [[ -d ./DB/$name ]];
+then
+	rm -r ./DB/$name
+	echo "DataBase Removed" 
+else
+	echo "invalid Database"
+fi
+}
+while true 
+do
+	echo "
+	1 To Create Database
+	2 List Databases
+	3 Connect To Databases
+	4 Drop Database
+	5 exit "
+	read x
+	if [ $x -eq 5 ]
+	then
+		break;
+	elif [ $x -eq 1 ]
+	then
+		CreateDB
+
+	
+        elif [ $x -eq 2 ]
+        then
+                 ListDB
+
+	elif [ $x -eq 3 ]
+	then
+		ConnectDB
+	elif [ $x -eq 4 ]
+	then
+		DropDB
+                
+        fi
+
+done
