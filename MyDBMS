@@ -4,7 +4,7 @@ exist=0
 for d in $(ls) :
 do
 	
-	if [ $d == "DB" ];
+	if [ $d == "DBMS" ];
 	then
 		echo exist
 		exist=1;
@@ -12,10 +12,10 @@ do
 done
 if [ $exist -eq 0 ];
 	then
-	mkdir DB
+	mkdir DBMS
 
 fi
 }
 check_exist
 
-. ./DbMenue
+. ./DBMSMenue

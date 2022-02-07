@@ -1,7 +1,7 @@
 #!/bin/bash
 
 function valid (){
-if [[ -d ./DB/$1  ]]
+if [[ -d ./DBMS/$1  ]]
 then
 	echo "THERE IS DATABASE WITH THE SAME NAME "
 	return 0;
@@ -22,29 +22,29 @@ valid $db
 if [ $? -eq 1  ]
 	then
         echo $pwd
-        mkdir ./DB/$db
+        mkdir ./DBMS/$db
 fi
 }
 function ListDB(){
 echo "Your Databases are:"
-ls ./DB
+ls ./DBMS
 }
 function ConnectDB(){
 echo "Enter DB name to connect: "
 read name
-if [[ -d ./DB/$name ]]; then
-cd ./DB/$name
-echo "Connectd to $name Successfully"
+if [[ -d ./DBMS/$name ]]; then
+	. ./DataBase
+	
 else
-echo "Invalid DB"
+	echo "Invalid DB"
 fi
 }
 function DropDB() {
 echo "Enter DB name to drop:"
 read name
-if [[ -d ./DB/$name ]];
+if [[ -d ./DBMS/$name ]];
 then
-	rm -r ./DB/$name
+	rm -r ./DBMS/$name
 	echo "DataBase Removed" 
 else
 	echo "invalid Database"

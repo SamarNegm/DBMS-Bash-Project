@@ -1,0 +1,74 @@
+#!/bin/bash
+
+function CreateTable(){
+echo "Enter Table name "
+read table
+if [[ -f ./$table ]]; then
+    echo " Table already exist"
+else 
+    touch ./$table
+    echo "table created successfully"
+fi
+}
+
+
+function ListTables(){
+echo "Your Tables are:"
+ls 
+}
+
+
+function DropTable(){
+echo "Enter Table name "
+read table
+if [[ -f ./$table ]]; then
+    rm $table
+    echo " Table $table Removed"
+else 
+    echo "invalid Table"
+fi
+}
+
+
+function Delete_from_Table()
+{
+echo "TODO Delete_from_Table"
+}
+function Update_Table()
+{
+echo "TODO Delete_from_Table"
+}
+
+cd ./DBMS/$name
+echo "Connectd to $name Successfully"
+echo "Enter Your Choice Please:"
+options=("Create Table" "List Tables" "Drop Table" "Insert into Table" "Select from Table" "Delete from Table" "Update Table" "Exit")
+select opt in "${options[@]}"
+do
+    case $opt in
+            "Create Table")
+                  CreateTable
+                  ;;
+            "List Tables")
+                  ListTables
+                  ;;
+            "Drop Table")
+                  DropTable
+                  ;;
+            "Insert into Table")
+                  Insert_into_Table
+                  ;;
+            "Select from Table")
+                  Select_from_Table
+                  ;;
+            "Delete from Table")
+                  Delete_from_Table
+                  ;;
+            "Update Table")
+                  Update_Table
+                  ;;
+            "Exit")
+                  exit 
+                  ;;
+    esac
+done
