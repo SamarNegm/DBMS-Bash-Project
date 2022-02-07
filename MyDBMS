@@ -6,7 +6,6 @@ do
 	
 	if [ $d == "DBMS" ];
 	then
-		echo exist
 		exist=1;
 	fi
 done

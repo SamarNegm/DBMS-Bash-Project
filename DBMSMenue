@@ -21,7 +21,6 @@ read db
 valid $db
 if [ $? -eq 1  ]
 	then
-        echo $pwd
         mkdir ./DBMS/$db
 fi
 }

@@ -1,4 +1,5 @@
 #!/bin/bash
+tableMetaData=""
 function validTable (){
 if [[ -f ./$1  ]]
 then
@@ -32,6 +33,10 @@ echo "Enter The Number Of Columns"
             done
             if [ $validNum -eq 1 ]
             then
+                  tableMetaData="${table}@"
+                  echo "$tableMetaData"
+                  touch ./"$tableMetaData"
+                  echo "$c : ">>"$tableMetaData"
                   echo "table created successfully"
                   break
             fi
