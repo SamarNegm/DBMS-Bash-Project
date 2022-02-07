@@ -1,14 +1,58 @@
 #!/bin/bash
-
-function CreateTable(){
-echo "Enter Table name "
-read table
-if [[ -f ./$table ]]; then
-    echo " Table already exist"
-else 
-    touch ./$table
-    echo "table created successfully"
+function validTable (){
+if [[ -f ./$1  ]]
+then
+	echo "THERE IS A Table WITH THE SAME NAME "
+	return 0;
 fi
+for i in $1 ;
+do
+	if [[ $i =~ [^a-zA-Z] ]]		
+	then
+		echo "HAVE UNVALID CHARACTER >> IT MUST BE ALPHABETICS"
+		return 0;
+	fi
+done
+return 1;
+} 
+function validNumber(){
+echo "Enter The Number Of Columns"
+ while true
+      do
+          
+            read c
+            validNum=1;
+            for i in $c;
+            do
+                  if [[ $i =~ [^0-9] ]]
+                  then
+                        validNum=0
+                        echo "Please Enter a Number"
+                  fi
+            done
+            if [ $validNum -eq 1 ]
+            then
+                  echo "table created successfully"
+                  break
+            fi
+      done
+}
+function CreateTable(){
+
+while true
+do
+      echo "Enter Table name "
+      read table
+      validTable $table
+      if [ $? -eq 1 ]
+      then
+            touch ./$table
+            validNumber 
+            break;
+      fi
+   
+
+done
 }
 
 
@@ -37,6 +81,12 @@ echo "TODO Delete_from_Table"
 function Update_Table()
 {
 echo "TODO Delete_from_Table"
+}
+function Insert_into_Table()
+{
+
+
+      echo "Data Inserted Successfully"
 }
 
 cd ./DBMS/$name
