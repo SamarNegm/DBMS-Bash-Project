@@ -21,9 +21,9 @@ echo "Enter The Number Of Columns"
  while true
       do
           
-            read c
+            read col
             validNum=1;
-            for i in $c;
+            for i in $col;
             do
                   if [[ $i =~ [^0-9] ]]
                   then
@@ -33,14 +33,47 @@ echo "Enter The Number Of Columns"
             done
             if [ $validNum -eq 1 ]
             then
-                  tableMetaData="${table}@"
-                  echo "$tableMetaData"
-                  touch ./"$tableMetaData"
-                  echo "$c : ">>"$tableMetaData"
+                  creaTableMetaData
+                  insertTableMetaData
                   echo "table created successfully"
                   break
             fi
       done
+}
+function insertTableMetaData(){
+      echo " insertTableMetaData $tableMetaData "
+      echo "$col : ">>"$tableMetaData"
+      isPrimary='n'
+      primaryFeild
+      i=0;
+      while [ $i -lt $col ]
+      do
+            if [ $isPrimary == "n" ]
+            then
+                  echo "Enter y/n Is Primary "
+                  read isPrimary
+                  let primaryFeild=$i
+            fi
+            echo "Enter The Field Name"
+            read fname
+            echo "Enter The Field Type"
+            read nullable
+            echo "Enter y/n Dose it The Accept Null "
+            read ftype
+            if ( [ $isPrimary == "y" ] &&  [ $primaryFeild -eq $i ] )
+            then
+                  echo "y:$fname:$ftype \ ">>"$tableMetaData"
+            else
+                   echo "n:$fname:$ftype \ ">>"$tableMetaData"
+            fi
+            let i=$i+1;
+      done
+
+}
+function creaTableMetaData(){
+
+      tableMetaData="${table}@"
+      touch ./"$tableMetaData"
 }
 function CreateTable(){
 
