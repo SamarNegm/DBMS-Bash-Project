@@ -1,0 +1,12 @@
+#!/bin/bash
+function readDataFromUser()
+{
+
+	echo "Read Data From $1"
+
+    
+}
+echo "Enter The Table Name"
+read tableName
+readDataFromUser "$tableName@"
+echo "Data Inserted Successfully"

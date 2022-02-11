@@ -30,8 +30,8 @@ ls ./DBMS
 }
 function ConnectDB(){
 echo "Enter DB name to connect: "
-read name
-if [[ -d ./DBMS/$name ]]; then
+read DBname
+if [[ -d ./DBMS/$DBname ]]; then
 	. ./DataBase
 	
 else
@@ -40,10 +40,10 @@ fi
 }
 function DropDB() {
 echo "Enter DB name to drop:"
-read name
-if [[ -d ./DBMS/$name ]];
+read DBname
+if [[ -d ./DBMS/$DBname ]];
 then
-	rm -r ./DBMS/$name
+	rm -r ./DBMS/$DBname
 	echo "DataBase Removed" 
 else
 	echo "invalid Database"

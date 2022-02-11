@@ -16,7 +16,7 @@ do
 done
 return 1;
 } 
-function validNumber(){
+function validIntNumber(){
 echo "Enter The Number Of Columns"
  while true
       do
@@ -41,10 +41,8 @@ echo "Enter The Number Of Columns"
       done
 }
 function insertTableMetaData(){
-      echo " insertTableMetaData $tableMetaData "
-      echo "$col : ">>"$tableMetaData"
       isPrimary='n'
-      primaryFeild
+      primaryFeild=-1
       i=0;
       while [ $i -lt $col ]
       do
@@ -56,15 +54,35 @@ function insertTableMetaData(){
             fi
             echo "Enter The Field Name"
             read fname
-            echo "Enter The Field Type"
-            read nullable
+            while true
+                  do
+                        echo "
+                        Enter The Field Type 
+                        1) int
+                        2) string
+                        "
+                        read ftypeNum
+                        if [[ $ftypeNum -eq 1 || $ftypeNum -eq 2 ]]
+                               then
+                              if [ $ftypeNum -eq 1 ]
+                              then
+                                    ftype="int"
+                              else
+                                    ftype="string"
+                              fi
+                              break
+
+                        fi
+                  done
+      
+
             echo "Enter y/n Dose it The Accept Null "
-            read ftype
+            read nullable
             if ( [ $isPrimary == "y" ] &&  [ $primaryFeild -eq $i ] )
             then
-                  echo "y:$fname:$ftype \ ">>"$tableMetaData"
+                  echo "$col:y:$fname:$ftype \ ">>DBMS/$DBname/"$tableMetaData"
             else
-                   echo "n:$fname:$ftype \ ">>"$tableMetaData"
+                   echo "$col:n:$fname:$ftype \ ">>DBMS/$DBname/"$tableMetaData"
             fi
             let i=$i+1;
       done
@@ -72,43 +90,44 @@ function insertTableMetaData(){
 }
 function creaTableMetaData(){
 
-      tableMetaData="${table}@"
-      touch ./"$tableMetaData"
+      tableMetaData=".${table}@"
+      touch DBMS/$DBname/"$tableMetaData"
 }
 function CreateTable(){
 
-while true
-do
-      echo "Enter Table name "
-      read table
-      validTable $table
-      if [ $? -eq 1 ]
-      then
-            touch ./$table
-            validNumber 
-            break;
-      fi
-   
+      while true
+      do
+            echo "Enter Table name "
+            read table
+            validTable $table
+            if [ $? -eq 1 ]
+            then
+                  touch DBMS/$DBname/$table
+                  validIntNumber 
+                  break;
+            fi
+      
 
-done
+      done
 }
 
 
 function ListTables(){
-echo "Your Tables are:"
-ls 
+      echo "Your Tables are:"
+      ls DBMS/$DBname
 }
 
 
 function DropTable(){
-echo "Enter Table name "
-read table
-if [[ -f ./$table ]]; then
-    rm $table
-    echo " Table $table Removed"
-else 
-    echo "invalid Table"
-fi
+      echo "Enter Table name "
+      read table
+      if [[ -f ./DBMS/$DBname/$table ]]; then
+      rm DBMS/$DBname/$table
+      rm DBMS/$DBname/".$table@"
+      echo "Table $table Removed"
+      else 
+      echo "invalid Table"
+      fi
 }
 
 
@@ -122,13 +141,11 @@ echo "TODO Delete_from_Table"
 }
 function Insert_into_Table()
 {
-
-
-      echo "Data Inserted Successfully"
+      . ./InsertDataIntoTables
 }
 
-cd ./DBMS/$name
-echo "Connectd to $name Successfully"
+
+echo "Connectd to $DBname Successfully"
 echo "Enter Your Choice Please:"
 options=("Create Table" "List Tables" "Drop Table" "Insert into Table" "Select from Table" "Delete from Table" "Update Table" "Exit")
 select opt in "${options[@]}"
