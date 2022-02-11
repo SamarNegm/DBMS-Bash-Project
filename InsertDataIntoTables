@@ -1,4 +1,21 @@
 #!/bin/bash
+function validatePrimary()
+{
+		typeset -i nrD=`awk 'END { print NR }' DBMS/$DBname/"$insertedTable";`
+		value=$1
+		primaryFeildNum=$2
+		for (( k = 1; k <= $nrD; k++ ));do
+				currVal=`awk -F: -v"i=$k" -v"primaryFeildNum=$primaryFeildNum" '{if(NR==i){print $primaryFeildNum}}' DBMS/$DBname/"$insertedTable";`
+			
+				if [ $value == $currVal ]
+				then
+					echo "Primary Field MUST Be Uniqe"
+					read -p "Enter $colName **it must be:$colType  : " value;
+					validatePrimary $value $primaryFeildNum
+				fi
+
+		done
+}
 echo "Available tables in $DBname"
 ls DBMS/$DBname/
 read -p "Enter table Name: " insertedTable
@@ -6,23 +23,38 @@ if [[ -f DBMS/$DBname/$insertedTable ]]; then
 	echo DBMS/$DBname/".$insertedTable@"
 	cat  DBMS/$DBname/".$insertedTable@"
 	typeset -i nr=`awk 'END { print NR }' DBMS/$DBname/".$insertedTable@";`
-	echo $nr
-	for (( i = 1; i <= $nr; i++ )); do
-	 	colname=`awk -F: -v"i=$i" '{if(NR==i){print $2}}' DBMS/$DBname/".$insertedTable@";`
-	 	coltype=`awk -F: -v"i=$i" '{if(NR==i){print $3}}' DBMS/$DBname/".$insertedTable@";`
-		 echo "colname: $colname -- coltype:$coltype"
-	 	# flag=0;
-	 	# while [[ $flag -eq 0 ]]; do
-	 	# 	read -p "Enter $colname " value;
-		#  	if [[ $coltype = "int" && "$value" = +([0-9]) || $coltype = "string" && "$value" = +([a-zA-Z]) ]]; then
-		#  		if [[ $i != $nf ]]; then
-		#  			echo -n $value":" >>  DBMS/$DBname/".$insertedTable@";
-		#  		else	
-		#  			echo $value >>  DBMS/$DBname/".$insertedTable@";
-		#  		fi
-		#  		flag=1;
-		#  	fi
-	 	# done
+	for (( i= 1; i <= $nr; i++ )); do
+		isPrimaryCol=`awk -F: -v"i=$i" '{if(NR==i){print $1}}' DBMS/$DBname/".$insertedTable@";`
+	 	colName=`awk -F: -v"i=$i" '{if(NR==i){print $2}}' DBMS/$DBname/".$insertedTable@";`
+	 	colType=`awk -F: -v"i=$i" '{if(NR==i){print $3}}' DBMS/$DBname/".$insertedTable@";`
+		
+		 while true
+		 do
+				read -p "Enter $colName **it must be:$colType  : " value;
+				if [[ $isPrimaryCol = "y" ]]
+				then
+		
+					validatePrimary $value $i
+				fi
+				
+			
+				if [[ $colType = "int" && "$value" = +([0-9]) || $colType = "string" && "$value" = +([a-zA-Z]) ]];
+				then
+				
+					
+					if [ $i -lt $nr ]
+					then
+				
+						echo -n "$value:">>  DBMS/$DBname/"$insertedTable";
+					else
+						echo "$value:">>  DBMS/$DBname/"$insertedTable";
+					fi
+					break;
+				
+				fi
+
+
+		 done
 	done
  	
 else
