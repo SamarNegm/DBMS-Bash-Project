@@ -41,7 +41,7 @@ fi
 function DropDB() {
 echo "Enter DB name to drop:"
 read DBname
-if [[ -d ./DBMS/$DBname ]];
+if [[ -d ./DBMS/$DBname && $DBname != "" ]];
 then
 	rm -r ./DBMS/$DBname
 	echo "DataBase Removed" 

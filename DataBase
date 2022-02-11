@@ -80,9 +80,9 @@ function insertTableMetaData(){
             read nullable
             if ( [ $isPrimary == "y" ] &&  [ $primaryFeild -eq $i ] )
             then
-                  echo "$col:y:$fname:$ftype \ ">>DBMS/$DBname/"$tableMetaData"
+                  echo "y:$fname:$ftype">>DBMS/$DBname/"$tableMetaData"
             else
-                   echo "$col:n:$fname:$ftype \ ">>DBMS/$DBname/"$tableMetaData"
+                   echo "n:$fname:$ftype">>DBMS/$DBname/"$tableMetaData"
             fi
             let i=$i+1;
       done

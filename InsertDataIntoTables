@@ -1,12 +1,30 @@
 #!/bin/bash
-function readDataFromUser()
-{
-
-	echo "Read Data From $1"
-
-    
-}
-echo "Enter The Table Name"
-read tableName
-readDataFromUser "$tableName@"
-echo "Data Inserted Successfully"
+echo "Available tables in $DBname"
+ls DBMS/$DBname/
+read -p "Enter table Name: " insertedTable
+if [[ -f DBMS/$DBname/$insertedTable ]]; then
+	echo DBMS/$DBname/".$insertedTable@"
+	cat  DBMS/$DBname/".$insertedTable@"
+	typeset -i nr=`awk 'END { print NR }' DBMS/$DBname/".$insertedTable@";`
+	echo $nr
+	for (( i = 1; i <= $nr; i++ )); do
+	 	colname=`awk -F: -v"i=$i" '{if(NR==i){print $2}}' DBMS/$DBname/".$insertedTable@";`
+	 	coltype=`awk -F: -v"i=$i" '{if(NR==i){print $3}}' DBMS/$DBname/".$insertedTable@";`
+		 echo "colname: $colname -- coltype:$coltype"
+	 	# flag=0;
+	 	# while [[ $flag -eq 0 ]]; do
+	 	# 	read -p "Enter $colname " value;
+		#  	if [[ $coltype = "int" && "$value" = +([0-9]) || $coltype = "string" && "$value" = +([a-zA-Z]) ]]; then
+		#  		if [[ $i != $nf ]]; then
+		#  			echo -n $value":" >>  DBMS/$DBname/".$insertedTable@";
+		#  		else	
+		#  			echo $value >>  DBMS/$DBname/".$insertedTable@";
+		#  		fi
+		#  		flag=1;
+		#  	fi
+	 	# done
+	done
+ 	
+else
+	echo "$insertb doesn't exist";
+fi
