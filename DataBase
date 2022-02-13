@@ -137,7 +137,7 @@ function Delete_from_Table()
 }
 function Update_Table()
 {
-echo "TODO Delete_from_Table"
+      . ./UpdateTable
 }
 function Insert_into_Table()
 {
