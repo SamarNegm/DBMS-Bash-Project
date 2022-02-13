@@ -26,7 +26,6 @@ function validatePrimary()
              done
             if [ $okkk -eq 1 ]
             then
-                  echo "mm$okkk"
                   break;
             else
                   read -p "Enter A Valid Id.  " dId
@@ -40,6 +39,7 @@ echo "Available tables in $DBname"
 ls DBMS/$DBname/
 echo "Enter Table Name"
 read table
+if [[ -f DBMS/$DBname/$table ]] then;
 echo "Enter Id Of Recored That You Want To Delete "
 read dId
 typeset -i nr=`awk 'END { print NR }' DBMS/$DBname/".$table@";`
@@ -51,3 +51,6 @@ typeset -i nr=`awk 'END { print NR }' DBMS/$DBname/".$table@";`
 		validatePrimary  $i
 		fi
       done
+else
+	echo "$table doesn't exist";
+fi
