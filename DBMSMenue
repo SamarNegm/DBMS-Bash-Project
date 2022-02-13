@@ -60,7 +60,7 @@ do
 	read x
 	if [ $x -eq 5 ]
 	then
-		break;
+		exit;
 	elif [ $x -eq 1 ]
 	then
 		CreateDB

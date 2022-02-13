@@ -42,7 +42,7 @@ if [ -f DBMS/$DBname/$table ]
                   List_Col
                   ;;
             "Exit")
-                  exit
+                  . ./DataBase
                   ;;
       
          esac

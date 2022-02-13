@@ -19,9 +19,10 @@ function validatePrimary()
 echo "Available tables in $DBname"
 ls DBMS/$DBname/
 read -p "Enter table Name: " insertedTable
+
 if [[ -f DBMS/$DBname/$insertedTable ]]; then
 	echo DBMS/$DBname/".$insertedTable@"
-	cat  DBMS/$DBname/".$insertedTable@"
+	# cat  DBMS/$DBname/".$insertedTable@"
 	typeset -i nr=`awk 'END { print NR }' DBMS/$DBname/".$insertedTable@";`
 	for (( i= 1; i <= $nr; i++ )); do
 		isPrimaryCol=`awk -F: -v"i=$i" '{if(NR==i){print $1}}' DBMS/$DBname/".$insertedTable@";`
