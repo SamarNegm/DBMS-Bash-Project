@@ -1,7 +1,7 @@
 #!/bin/bash
 function List_Col()
 {
-  
+       echo "Enter the Coulmn Number"
       read col
       awk -F: '{print $'$col'}' DBMS/$DBname/$table
 }
