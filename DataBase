@@ -143,6 +143,10 @@ function Insert_into_Table()
 {
       . ./InsertDataIntoTables
 }
+function Select_from_Table()
+{
+     . ./SelectFromTable
+}
 
 
 echo "Connectd to $DBname Successfully"

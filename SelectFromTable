@@ -1,0 +1,52 @@
+#!/bin/bash
+function List_Col()
+{
+  
+      read col
+      awk -F: '{print $'$col'}' DBMS/$DBname/$table
+}
+function List_All_Data()
+{
+		typeset -i Dnr=`awk 'END { print NR }' DBMS/$DBname/"$table";`
+		typeset -i nr=`awk 'END { print NR }' DBMS/$DBname/".$table@";`
+		for (( j= 1; j <= $Dnr; j++ )); do
+	
+			for (( i= 1; i <= $nr; i++ )); do
+			colName=`awk -F: -v"i=$i" '{if(NR==i){print $2}}' DBMS/$DBname/".$table@";`
+
+			colData=`awk -F: -v"i=$i" -v"j=$j" '{if(NR==j){print $i}}' DBMS/$DBname/"$table";`
+			if [ $i -lt $nr ]
+			then
+			echo -n "$colName : $colData |"
+			else
+			echo  "$colName : $colData |"
+			fi
+			done
+		done
+    #   awk -F: '{i=1; if(i<NF){print "$colName:", $1,"|", "Age:", $2,"|", "LastName:", $4} i++}' DBMS/$DBname/$table
+}
+echo "Available tables in $DBname"
+ls DBMS/$DBname/
+echo "Enter Table Name"
+read table
+if [ -f DBMS/$DBname/$table ]
+    then
+      soptions=("List All" "List Column" "Exit")
+      select opt in "${soptions[@]}"
+      do
+        case $opt in
+            "List All")
+                  List_All_Data
+                  ;;
+            "List Column")
+                  List_Col
+                  ;;
+            "Exit")
+                  exit
+                  ;;
+      
+         esac
+     done
+else
+	echo "$insertb doesn't exist";
+ fi
