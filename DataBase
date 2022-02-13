@@ -133,7 +133,7 @@ function DropTable(){
 
 function Delete_from_Table()
 {
-echo "TODO Delete_from_Table"
+      . ./RemoveFromTable
 }
 function Update_Table()
 {

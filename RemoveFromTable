@@ -1,0 +1,53 @@
+#!/bin/bash
+function Remove_from_Table()
+{
+  echo "Recored Deleted Fun"
+  sed -i $1'd' DBMS/$DBname/"$table";
+}
+function validatePrimary()
+{
+      typeset -i nrD=`awk 'END { print NR }' DBMS/$DBname/"$table";`
+	primaryFeildNum=$1
+      okkk=0
+      while true 
+      do
+            for (( k = 1; k <= $nrD; k++ ));do
+                  currVal=`awk -F: -v"i=$k" -v"primaryFeildNum=$primaryFeildNum" '{if(NR==i){print $primaryFeildNum}}' DBMS/$DBname/"$table";`
+                  echo "currVal : $currVal"
+                  if [ $dId -eq $currVal ];
+                  then
+                        Remove_from_Table $k
+                        echo "Recored Deleted"
+                        okkk=1;
+
+
+                  fi
+
+             done
+            if [ $okkk -eq 1 ]
+            then
+                  echo "mm$okkk"
+                  break;
+            else
+                  read -p "Enter A Valid Id.  " dId
+            fi
+            
+       done
+}
+
+
+echo "Available tables in $DBname"
+ls DBMS/$DBname/
+echo "Enter Table Name"
+read table
+echo "Enter Id Of Recored That You Want To Delete "
+read dId
+typeset -i nr=`awk 'END { print NR }' DBMS/$DBname/".$table@";`
+	for (( i= 1; i <= $nr; i++ )); do
+		isPrimaryCol=`awk -F: -v"i=$i" '{if(NR==i){print $1}}' DBMS/$DBname/".$table@";`
+            if [[ $isPrimaryCol = "y" ]]
+		then
+		
+		validatePrimary  $i
+		fi
+      done
